@@ -1,0 +1,6 @@
+.DS_Store
+src/.DS_Store
+boot/.DS_Store
+
+out/
+snakeos.img
