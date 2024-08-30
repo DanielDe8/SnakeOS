@@ -11,7 +11,7 @@
 #define KB_DATA_PORT               0x60
 #define KB_STATUS_PORT             0x64
 #define PIT_FREQUENCY              1193131.666 // idk what this is, from tetris-os by jdh
-#define DESIRED_FREQUENCY          5
+#define TIMER_TPS                  363
 
 extern void kb_handler();
 extern void pit_handler();
@@ -36,5 +36,7 @@ extern struct IDT_entry IDT[IDT_SIZE];
 void init_idt();
 void init_kb();
 void init_pit();
+
+unsigned long long get_ticks();
 
 #endif

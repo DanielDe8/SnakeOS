@@ -21,6 +21,8 @@
 #define BG_COLOR    0x0
 #define FOOD_COLOR  0x4
 
+#define FPS 10
+
 int running = 0;
 int start   = 1;
 
@@ -32,8 +34,6 @@ int lenght;
 int vx, vy;
 
 int fx, fy;
-
-int skip = 0;
 
 void random_food() {
     if (lenght >= GRID_SIZE) { running = 0; return; }
@@ -176,14 +176,6 @@ void update() {
     }
 }
 
-void tick() {
-    if (skip == 1) { skip = 0; return; }
-    skip = 1;
-
-    draw();
-    update();
-}
-
 void kernel_main() {
     init_idt();
     init_kb();
@@ -193,7 +185,14 @@ void kernel_main() {
     restart(1);
     running = 0;
 
+    unsigned int last = 0;
     while (1) {
-        __asm__ volatile("hlt");
+        unsigned int now = (unsigned int) get_ticks();
+        if ((now - last) > (TIMER_TPS / FPS)) {
+            last = now;
+
+            draw();
+            update();
+        }
     };
 }

@@ -4,6 +4,8 @@
 
 struct IDT_entry IDT[IDT_SIZE];
 
+static unsigned long long ticks;
+
 void init_idt() {
     unsigned int kb_offset = (unsigned int) kb_handler;
     IDT[0x21].offset_low = kb_offset & 0x0000FFFF;
@@ -46,7 +48,7 @@ void init_kb() {
 }
 
 void init_pit() {
-    unsigned short divisor = PIT_FREQUENCY / DESIRED_FREQUENCY;
+    unsigned short divisor = PIT_FREQUENCY / TIMER_TPS;
 
     // Send the command byte to the PIT
     outb(0x43, 0x36);
@@ -70,5 +72,10 @@ void handle_kb_int() {
 
 void handle_pit_int() {
     outb(PIC1_COMMAND_PORT, 0x20);
-    tick();
+    // tick();
+    ticks++;
+}
+
+unsigned long long get_ticks() {
+    return ticks;
 }
