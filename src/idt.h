@@ -34,7 +34,6 @@ struct IDT_entry {
 extern struct IDT_entry IDT[IDT_SIZE];
 
 void init_idt();
-void init_kb();
 void init_pit();
 
 unsigned long long get_ticks();

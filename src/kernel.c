@@ -184,7 +184,6 @@ void update() {
 
 void kernel_main() {
     init_idt();
-    init_kb();
     init_pit();
     enable_ints();
 

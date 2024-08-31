@@ -43,10 +43,6 @@ void init_idt() {
     load_idt(&idt_ptr);
 }
 
-void init_kb() {
-    // outb(PIC1_DATA_PORT, 0xFD);
-}
-
 void init_pit() {
     unsigned short divisor = PIT_FREQUENCY / TIMER_TPS;
 
