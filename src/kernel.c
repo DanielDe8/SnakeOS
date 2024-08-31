@@ -38,12 +38,16 @@ char fx, fy;
 void random_food() {
     if (lenght >= GRID_SIZE) { running = 0; return; }
 
-    fx = rand_range(0, GRID_WIDTH - 1);
-    fy = rand_range(0, GRID_HEIGHT - 1);
+    char food_placed = 0;
+    while (!food_placed) {
+        fx = rand_range(0, GRID_WIDTH - 1);
+        fy = rand_range(0, GRID_HEIGHT - 1);
 
-    for (int i = lenght; i > 0; i--) {
-        if (x[i] == fx && y[i] == fy) {
-            random_food();
+        food_placed = 1;
+        for (int i = lenght; i > 0; i--) {
+            if (x[i] == fx && y[i] == fy) {
+                food_placed = 0;
+            }
         }
     }
 }
