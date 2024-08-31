@@ -23,17 +23,17 @@
 
 #define FPS 10
 
-int running = 0;
-int start   = 1;
+char running = 0;
+char start   = 1;
 
 int score;
 
 char x[GRID_SIZE] = { };
 char y[GRID_SIZE] = { };
 int lenght;
-int vx, vy;
+char vx, vy;
 
-int fx, fy;
+char fx, fy;
 
 void random_food() {
     if (lenght >= GRID_SIZE) { running = 0; return; }
@@ -87,7 +87,11 @@ void draw_tile(int x, int y, unsigned short color) {
     rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, color);
 }
 
+char redraw = 1;
 void draw() {
+    if (running) { redraw = 1; }
+    if (!redraw) { return; }
+
     clear_screen(BG_COLOR);
 
     draw_tile(fx, fy, FOOD_COLOR);
@@ -121,6 +125,8 @@ void draw() {
             font_str("Press SPACE", (SCREEN_WIDTH - font_width("Press SPACE")) * 0.5, ((SCREEN_HEIGHT - G_O_MENU_HEIGHT) * 0.5) + 46, 0xF);
             font_str("to play again", (SCREEN_WIDTH - font_width("to play again")) * 0.5, ((SCREEN_HEIGHT - G_O_MENU_HEIGHT) * 0.5) + 56, 0xF);
         }
+
+        redraw = 0;
     }
 }
 
