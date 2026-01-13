@@ -2,11 +2,11 @@
 ## How to run
 To compile and run via [QEMU](https://qemu.org) on macOS/Linux, simply run:
 ```
-$ make
+$ make run
 ```
 If you only want to compile:
 ```
-$ make snakeos.img
+$ make
 ```
 ## Dependencies
 **To compile, you need the `i386-elf` toolchain.** Install it via [Homebrew](https://brew.sh/):

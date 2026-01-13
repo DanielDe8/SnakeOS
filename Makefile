@@ -20,7 +20,8 @@ CFLAGS = -g \
 		-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs \
 		-Wall -Wextra
 
-all: clean run_img
+img: clean $(IMG)
+run: clean run_img
 
 $(OUT_DIR):
 	mkdir -p $(OUT_DIR)
