@@ -40,7 +40,7 @@ void init_idt() {
     idt_ptr.limit = (sizeof(struct IDT_entry) * IDT_SIZE - 1);
     idt_ptr.base = (unsigned int) &IDT;
 
-    load_idt(&idt_ptr);
+    load_idt((unsigned int*) &idt_ptr);
 }
 
 void init_pit() {

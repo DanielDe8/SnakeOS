@@ -58,8 +58,8 @@ void restart(int new_food) {
     lenght = 3;
     vx = 1;
     vy = 0;
-    memset(x, 0, GRID_SIZE);
-    memset(y, 0, GRID_SIZE);
+    memset((unsigned int) &x, 0, GRID_SIZE);
+    memset((unsigned int) &y, 0, GRID_SIZE);
 
     x[0] = 3;
     x[1] = 2;
