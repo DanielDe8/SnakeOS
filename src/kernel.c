@@ -35,6 +35,8 @@ char vx, vy;
 
 char fx, fy;
 
+int seed_flag = 1; 
+
 void random_food() {
     if (lenght >= GRID_SIZE) { running = 0; return; }
 
@@ -73,6 +75,11 @@ void restart(int new_food) {
 
 char next_keycode = -1;
 void key_press(char keycode) {
+    if (seed_flag) {
+        srand((unsigned int) get_ticks());
+        seed_flag = 0;
+    }
+
     if (running) {
         next_keycode = keycode;
     } else {
