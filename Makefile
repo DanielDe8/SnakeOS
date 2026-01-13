@@ -1,4 +1,4 @@
-.PHONY: all clean run run_img run_vbox
+.PHONY: img clean run run_img run_vbox
 
 OUT_DIR = ./out
 
@@ -20,8 +20,7 @@ CFLAGS = -g \
 		-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs \
 		-Wall -Wextra
 
-img: clean $(IMG)
-run: clean run_img
+img: $(IMG)
 
 $(OUT_DIR):
 	mkdir -p $(OUT_DIR)
@@ -32,14 +31,14 @@ $(OUT_DIR)/%.o: */%.asm | $(OUT_DIR)
 $(OUT_DIR)/%.bin: */%.asm | $(OUT_DIR)
 	nasm $< -f bin -o $@
 
-$(OUT_DIR)/%.o: src/%.c ${HEADERS} | $(OUT_DIR)
-	${CC} ${CFLAGS} -ffreestanding -c $< -o $@
+$(OUT_DIR)/%.o: src/%.c $(HEADERS) | $(OUT_DIR)
+	$(CC) $(CFLAGS) -ffreestanding -c $< -o $@
 
-$(OUT_DIR)/kernel.elf: $(OUT_DIR)/load_kernel.o ${OBJS}
-	${LD} -o $@ -Ttext 0x1000 $^
+$(OUT_DIR)/kernel.elf: $(OUT_DIR)/load_kernel.o $(OBJS)
+	$(LD) -o $@ -Ttext 0x1000 $^
 
 $(OUT_DIR)/kernel.bin: $(OUT_DIR)/kernel.elf
-	${OBJCOPY} -O binary $< $@
+	$(OBJCOPY) -O binary $< $@
 
 $(OUT_DIR)/image.bin: $(OUT_DIR)/bootloader.bin $(OUT_DIR)/kernel.bin
 	cat $^ > $@
@@ -49,10 +48,10 @@ $(IMG): $(OUT_DIR)/image.bin
 	dd if=$< of=$@ conv=notrunc
 
 run: $(OUT_DIR)/image.bin
-	${QEMU} -fda $< -no-reboot -d int,cpu_reset
+	$(QEMU) -fda $< -no-reboot -d int,cpu_reset
 
 run_img: $(IMG)
-	${QEMU} -drive file=$<,format=raw,if=floppy -boot a -m 16M #-d int,cpu_reset
+	$(QEMU) -drive file=$<,format=raw,if=floppy -boot a -m 16M #-d int,cpu_reset
 
 run_vbox: $(IMG)
 	VBoxManage startvm $(VM)
